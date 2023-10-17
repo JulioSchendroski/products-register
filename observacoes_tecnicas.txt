@@ -1,0 +1,18 @@
+A tranferencia de objetos no projeto foi dividido de acordo com cada camada da aplicação em que estava inserido, utilizando Request e Response para comunicação
+do Controller com o Service, juntamente com DTO, assim como DTO e Entity para camada de Repositório. No entanto, vale notar que alguns modelos deixaram de ser mapeados.
+
+Outra observação a ser tomada é a ausencia dos testes unitários de Services e Controllers, por decorrência de problemas com o Mock e tempo de entrega do projeto.
+
+Em relação a comunicação assíncrona, foi utilizado RabbitMQ, como sugerido pelo enunciado, na qual foi criado uma classe de Consumidor,
+que fica escutando Produtores a enviarem mensagens através de broker. No projeto foi criado a classe OrderConsumer que dispara uma atualização de status do pedido,
+ou seja, quando o pedido for processador corretamente, seguindo a validação de quantidade de itens exigida, faz a atualização do status inicial do pedido de
+"IN_PROGRESS" (em progresso) para "SUCCESS" (sucesso).
+
+Vale notar que foi utilizado JPA para persistência dos dados no banco de dados, afim de facilitar a transições de dados. Porém houve a ausência do Lombok para
+facilitar a criação de entidades, gerando boilerplate code, ou seja, códigos repitidos nas entidades.
+
+Para o mapeamento dos modelos, foi utilizado a ferramenta MapStruct, de forma a facilitar o mapeamento entre dois modelos.
+
+Por fim, a classe de Produtor (OrderProducer) foi inultilizada, realizando a instância do RabbitTemplate direto na classe de Service. Essa tomada de decisão
+parte de um erro que estava acontecendo com o Beans do Produtor, na qual foi apontado em erro de injeção de dependência com o Autowired.
+Foi decidido deixar a classe Produtor no projeto, para representar como seria e devida implementação do Produtor.
